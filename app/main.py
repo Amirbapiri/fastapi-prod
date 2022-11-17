@@ -29,3 +29,8 @@ app.include_router(post.post_router)
 app.include_router(user.user_router)
 app.include_router(auth.auth_router)
 app.include_router(vote.vote_router)
+
+
+@app.get("/")
+def root():
+    return {"message": "Hi see the /docs."}

@@ -1,0 +1,29 @@
+version: "3"
+services:
+  fastapi:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - 80:8000
+    # command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+      - JWT_ALGORITHM=${JWT_ALGORITHM}
+
+  postgres:
+    image: postgres:15.1-alpine
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+
+volumes:
+  postgres-db:
